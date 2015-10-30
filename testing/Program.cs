@@ -37,7 +37,7 @@ class Program
         if (!Int32.TryParse(Console.ReadLine(), out scale))
             scale = defaultScale;
 
-        CellularAutomaton ca = new CellularAutomaton(rule, width);
+        CyclicElementaryCellularAutomaton ca = new CyclicElementaryCellularAutomaton(rule, width);
         Console.Write("Enter \"r\" for random starting seed or \"s\" for single cell. [r] ");
         string choice = Console.ReadLine();
         if (choice == "s")
@@ -51,14 +51,15 @@ class Program
                     startingField[i] = 1;
                 }
             }
-            ca = new CellularAutomaton(rule, width, startingField);
+            ca = new CyclicElementaryCellularAutomaton(rule, width, startingField);
         }
 
         for (int i = 0; i < generations; i++)
         {
             ca.Generate();
-            Console.WriteLine(ca.ToString());
+            
         }
+        //Console.WriteLine(ca.ToString());
         try
         {
             ca.ToImage().Save(filename);
@@ -67,5 +68,6 @@ class Program
         {
             ca.ToImage(scale).Save(defaultFilename);
         }
+        Console.ReadLine();
     }
 }

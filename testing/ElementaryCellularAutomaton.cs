@@ -5,13 +5,17 @@ using System.Drawing;
 
 namespace Paisley.CellularAutomata
 {
-    class CellularAutomaton
+    class ElementaryCellularAutomaton
     {
-        byte[] rule = new byte[8];
-        public List<byte> World { get; private set; }
-        public List<List<byte>> History { get; private set; }
+        protected byte[] rule = new byte[8];
+        public List<byte> World { get; protected set; }
+        public List<List<byte>> History { get; protected set; }
 
-        public CellularAutomaton(int ruleInt, int worldSize, List<byte> initWorld = null)
+        public ElementaryCellularAutomaton(){
+
+        }
+
+        public ElementaryCellularAutomaton(int ruleInt, int worldSize, List<byte> initWorld = null)
         {
             History = new List<List<byte>>();
             World = new List<byte>();
@@ -34,7 +38,7 @@ namespace Paisley.CellularAutomata
             }
         }
 
-        public void Generate()
+        public virtual void Generate()
         {
             List<byte> nextWorld = new List<byte>();
             for (int i = 0; i < World.Count; i++)
@@ -95,35 +99,30 @@ namespace Paisley.CellularAutomata
         new public string ToString()
         {
             string output = "";
-            foreach (int cell in World)
-            {
-                switch (cell)
-                {
-                    case 0:
-                        output += "0";
-                        break;
-                    case 1:
-                        output += "1";
-                        break;
+            for(int x = 0; x < History.Count; x++){
+                for(int y = 0; y < History[0].Count; y++){
+                    output += History[x][y].ToString();
                 }
+                output += "\n";
             }
             return output;
         }
-        public Bitmap ToImage(int pixelScale = 1, Color? cellColor = null)
+        public virtual Bitmap ToImage(int pixelScale = 1, List<Color> colors = null)
         {
+            if (colors == null) {
+                colors = new List<Color>() {
+                    Color.White,
+                    Color.Black
+                };
+            }
             Bitmap bmp = new Bitmap(World.Count * pixelScale, History.Count * pixelScale);
             for (int y = 0; y < History.Count * pixelScale; y += pixelScale)
             {
                 for (int x = 0; x < World.Count * pixelScale; x += pixelScale)
                 {
-                    Color paintColor;
-                    if (History[y / pixelScale][x / pixelScale] == 1)
-                    {
-                        paintColor = cellColor ?? Color.Black;
-                    }
-                    else
-                    {
-                        paintColor = Color.White;
+                    Color paintColor = colors[colors.Count - 1];
+                    if (History[y][x] < colors.Count) {
+                        paintColor = colors[History[y][x]];
                     }
                     for (int i = 0; i < pixelScale; i++)
                     {

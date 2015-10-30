@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CellularAutomaton.cs" />
+    <Compile Include="ElementaryCellularAutomaton.cs" />
+    <Compile Include="CyclicElementaryCellularAutomaton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
