@@ -17,7 +17,7 @@ namespace Paisley.CellularAutomata {
             }
             else {
                 for (int i = 0; i < worldSize; i++) {
-                    World.Add((byte)random.Next(0, rule - 1));
+                    World.Add((byte)random.Next(0, rule));
                 }
             }
         }
@@ -39,13 +39,13 @@ namespace Paisley.CellularAutomata {
                     lcell = World[i - 1];
                     rcell = World[i + 1];
                 }
-                if ((lcell % rule) == (mcell + 1)) {
-                    nextWorld[i] = (byte)lcell;
+                if (lcell % rule == (mcell + 1) % rule){
+                    nextWorld[i] = (byte)(lcell % rule);
                 }
                 else
                     nextWorld[i] = (byte) mcell;
-                if ((rcell % rule) == (mcell + 1)) {
-                    nextWorld[i] = (byte) rcell;
+                if (rcell % rule == (mcell + 1) % rule) {
+                    nextWorld[i] = (byte) (rcell % rule);
                 }
                 else
                     nextWorld[i] = (byte) mcell;
